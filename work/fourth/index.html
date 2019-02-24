@@ -47,6 +47,14 @@
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
+      $(function() {
+        $('.menu__list').children('li').hover(function() { //hoverメソッドを用いて、.menu__listの子要素(menu__list li)というclassにホバーした時、functionの中の関数を実行させる。
+          $(this).children('.menu__list__childList').slideDown(); // chidrenメソッド、nextメソッドを用いて、this=.menu__list liの子要素である.menu__list__titleに隣接した.menu__list__childListというclassを指定する。slideDownメソッドを用いて指定したclassの要素をスライドしながら表示する。第1引数であるため、マウスカーソルを乗せた時に関数実行。
+        }, function() {
+          $(this).children('.menu__list__childList').slideUp(); // chidrenメソッド、nextメソッドを用いて、this=.menu__list liの子要素である.menu__list__titleに隣接した.menu__list__childListというclassを指定する。slideUpメソッドを用いて指定したclassの要素をスライドしながら非表示にする。第2引数であるため、マウスカーソルを離した時に関数実行。
+        });
+        //this(menu__list li)の子要素は2つあるけど、childrenの引数に('.menu__list__childList')と書くことで、好きなほうを指定できる。
+      });
       // 今回やるのはドロップメニューです。
       // メニューをhoverすると隠れている中のメニューが表示され、メニューから離れると中のメニューが非表示されるプログラムです。
       // [使用するメソッド]

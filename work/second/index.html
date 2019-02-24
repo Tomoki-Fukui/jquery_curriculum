@@ -21,6 +21,14 @@
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
+      $(function() {
+        $('.modal-show').click(function() { // clickメソッドを用いて、.modal-showというclassをクリックすることでfunctionの中の関数を実行させる。
+          $('.modal').fadeIn(1000); // fadeInメソッドを用いて、.modalというclassを1000ms(1s)でフェードインさせる。
+        });
+        $('.modal-close').click(function() { // clickメソッドを用いて、.modal-closeというclassをクリックすることでfunctionの中の関数を実行させる。
+          $('.modal').fadeOut(1000); // fadeOutメソッドを用いて、.modalというclassを1000ms(1s)でフェードアウトさせる。
+        });
+      });
       // 今回やるのはモーダルです。
       // .modal-show をクリックすることで .modal をfadeInさせる。
       // .modal-close をクリックで .modal をfadeOutさせる。
