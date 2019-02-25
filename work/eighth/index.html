@@ -28,6 +28,29 @@
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
+      $(function() {
+        // ページ内スクロール
+        $(".menu__btn").click(function () {
+            var index = $(".menu__btn").index(this)
+            var top = $(".title").eq(index).offset().top;
+            $('html,body').animate({ scrollTop: top }, 'fast');
+            return false;
+        });
+        // 100pxスクロールでボタン表示
+        var topBtn = $('.scrollTopBtn');
+        $(window).scroll(function() {
+          if($(this).scrollTop() > 100) {
+            topBtn.fadeIn();
+          } else {
+            topBtn.fadeOut();
+          }
+        });
+        // ページ上部へ戻る
+        $(".scrollTopBtn").click(function () {
+            $('html,body').animate({ scrollTop: 0 }, 'fast');
+            return false;
+        });
+      });
       // 今回やるのはページ内スクロールです。
       // 左上にあるメニューを押して、そのタイトルと同じ位置までスクロールするアニメーションです。
       // また100pxほどスクロールすると右下にボタンがフェードインします。
