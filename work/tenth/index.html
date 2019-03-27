@@ -27,12 +27,12 @@
     <script src="../../common/js/jquery.js"></script>
     <script>
       $(function() {
-        var pageNum = 0;
-        $('#js-search-button').on('click',function() {
-          pageNum = pageNum + 1;
-          var searchword = $('#js-search-word').val();
+        var pageNum = 0; // pageNumという変数に0と宣言
+        $('#js-search-button').on('click',function() { // #js-search-buttonをクリックした時
+          pageNum = pageNum + 1; //変数pageNumに1ずつ加算
+          var searchword = $('#js-search-word').val(); // searchwordという変数に#js-search-wordを定義。#js-search-wordのval属性を取得
           console.log(searchword);
-          $.ajax({
+          $.ajax({ // データの取得
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
             type: 'GET',
             datatype: 'json',
@@ -45,24 +45,24 @@
               keyword: searchword,
             }
           })
-          .done(function(data) {
+          .done(function(data) { // データ通信に成功した場合
             console.log(data.hits);
-            if(data.count > 0) {
-              $('ul').empty();
-              $.each(data.Items,function(i,item) {
+            if(data.count > 0) { // data.countが0よりも大きいとき
+              $('ul').empty(); // ulの中を空にする
+              $.each(data.Items,function(i,item) { // data.Itemsに対して次の関数を繰り返し実行
                 console.log(data.Items);
-                var list = $('<li class = "lists__item">' + '<div class="lists__item__inner">' + '<a href="' + item.Item.itemUrl + '"class="lists__item__link" target="_blank">' + '<img src="' + item.Item.largeImageUrl + '" class="lists__item__img" alt="' + item.Item.title + '">' + '<p class="lists__item__detail">作品名：　' + item.Item.title + '</p>' + '<p class="lists__item__detail">作者　：　' + item.Item.author + '</p>' + '<p class="lists__item__detail">出版社：　' + item.Item.publisherName + '</p>' + '</a>' + '</div>' + '</li>');
-                $('.lists').append(list);
+                var list = $('<li class = "lists__item">' + '<div class="lists__item__inner">' + '<a href="' + item.Item.itemUrl + '"class="lists__item__link" target="_blank">' + '<img src="' + item.Item.largeImageUrl + '" class="lists__item__img" alt="' + item.Item.title + '">' + '<p class="lists__item__detail">作品名：　' + item.Item.title + '</p>' + '<p class="lists__item__detail">作者　：　' + item.Item.author + '</p>' + '<p class="lists__item__detail">出版社：　' + item.Item.publisherName + '</p>' + '</a>' + '</div>' + '</li>'); // listという変数にテンプレートを代入
+                $('.lists').append(list); // listsの後ににlistを追加
               })
-            } else if(data.hits === 0) {
-              $('.lists').after('<div class = "coment"></div>')
-              coment = $('.coment');
-              coment.html('<p class = "message">検索結果が0件でした。<br>キーワードを変えて検索してください。</p>');
+            } else if(data.hits === 0) { // data.hitsが0件だった時
+              $('.lists').after('<div class = "coment"></div>') // listsの後にクラスを追加
+              coment = $('.coment'); // comentに.comentを定義
+              coment.html('<p class = "message">検索結果が0件でした。<br>キーワードを変えて検索してください。</p>'); // comentにhtmlメソッドを用いて、0件だった時のコメントを追加
             }
-          }).fail(function() {
-            $('.lists').after('<div class = "datacoment"></div>')
-            datacoment = $('.datacoment');
-            datacoment.html('<p class = "failmessage">データ通信できませんでした。<br>接続を確認してください。</p>');
+          }).fail(function() { // データ通信に失敗した場合
+            $('.lists').after('<div class = "datacoment"></div>') // listsの後にクラスを追加
+            datacoment = $('.datacoment'); // datacomentに.datacomentを定義
+            datacoment.html('<p class = "failmessage">データ通信できませんでした。<br>接続を確認してください。</p>'); // datacomentに失敗した時のコメントを追加
           })
         });
       });
