@@ -30,24 +30,24 @@
     <script>
       $(function() {
         // ページ内スクロール
-        $(".menu__btn").click(function () {
-            var index = $(".menu__btn").index(this)
-            var top = $(".title").eq(index).offset().top;
-            $('html,body').animate({ scrollTop: top }, 'fast');
+        $(".menu__btn").click(function () { // .menu__btnをクリックした時
+            var index = $(".menu__btn").index(this) // index変数に、.menu__btnの番号を格納
+            var top = $(".title").eq(index).offset().top; // top変数に.titleの絶対位置を格納
+            $('html,body').animate({ scrollTop: top }, 'fast'); // animateメソッドを用いて、top変数で取得した位置にスクロール
             return false;
         });
         // 100pxスクロールでボタン表示
-        var topBtn = $('.scrollTopBtn');
-        $(window).scroll(function() {
-          if($(this).scrollTop() > 100) {
-            topBtn.fadeIn();
-          } else {
-            topBtn.fadeOut();
+        var topBtn = $('.scrollTopBtn'); // topBtn変数に.scrollTopBtnを定義
+        $(window).scroll(function() { // windowがスクロールされた時
+          if($(this).scrollTop() > 100) { // windowのスクロール位置が100より大きかったら
+            topBtn.fadeIn(); // スクロールボタンをfadeIn
+          } else { // 違ったら
+            topBtn.fadeOut(); // スクロールボタンをfadeOut
           }
         });
         // ページ上部へ戻る
-        $(".scrollTopBtn").click(function () {
-            $('html,body').animate({ scrollTop: 0 }, 'fast');
+        $(".scrollTopBtn").click(function () { // .scrollTopBtnをclickした時
+            $('html,body').animate({ scrollTop: 0 }, 'fast'); // animateメソッドを用いて、scrollTop0の位置(ページの一番上)までスクロール
             return false;
         });
       });

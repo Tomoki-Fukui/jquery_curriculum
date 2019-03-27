@@ -15,6 +15,20 @@
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
+      $(function() {
+        $.ajax({
+          url: './data.json' // ajaxメソッドを用いて.data.Jsonのデータをリクエスト
+        })
+        .done(function(data) {
+          console.log(data); // consoleにdata情報を表示
+          var colorsArray = data.colorsArray; // colorsArray変数にdata.colorsArrayを定義
+          let list = " "; // letを用いて、listという変数にブロックで定義
+          $.each(colorsArray, function(i) { // colorsArrayに対して次の関数を繰り返し実行
+            list += '<li class = "colorList__item"><p class = "colorList__title" style = "background-color:' + colorsArray[i].hexValue + ';"> ' + colorsArray[i].colorName + '</p></li>'; // listにテンプレートのhtmlを代入、colorsArrayにdata.Jsonのデータを代入
+          });
+          $('.colorList').html(list); // htmlメソッドを用いて.colorListにlistを代入
+        });
+      });
       // 今回のカリキュラムではAjax（XMLHttpRequest）というJavaScriptの特殊な機能を使います。
       // この機能はブラウザのセキュリティ機能によってはサーバーを立てないとうまく動作しない可能性があるので、サーバーを立てる必要があります。
       // ターミナルで`jquery-curriculum`に移動したあとに`open -a '/Applications/Google Chrome.app' http://localhost:8000/work/ninth/ && python -m SimpleHTTPServer 8000`を叩くとサーバを立てることができます。またブラウザも勝手に立ち上がります。サーバーを止める方法はターミナルでcontrol + cを打つと止まります。
