@@ -32,6 +32,13 @@
         var listLength = $('.slider-list > li').length; // listLengthという変数に画像の数を格納
         console.log(listLength);
         var  click = 0; // clickという変数に０を代入。
+        var sliding = function() {
+            if(click > listLength - 1) { // clickがlength-1よりも大きかったら
+              click = listLength - listLength; // click = 0となり、1枚目になる
+            } else if(click < listLength - listLength ) { // clickが0よりも小さかったら
+              click = listLength - 1; // click = length-1となり、最後の画像になる
+            }
+        };
         $('.slider-ctrl-btn').on('click', function(){ // .slider-ctrl-btnがクリックされた時
           var data = $(this).data('ctrl'); // dataという変数にthis(.slider-ctrl-btn)のdata-ctrl属性を取得
           if(data === 'next') { // もしdataがnextと一緒だったら
@@ -39,15 +46,7 @@
           } else { // 違ったら
             click--; // clickが1ずつ減っていく
           }
-        });
-         $('.slider-ctrl-btn').click(function(){ // clickメソッドを用いて.slider-ctrl-btnがクリックされた時
-          if(click > listLength - 1) { // clickがlength-1よりも大きかったら
-            click = listLength - listLength; // click = 0となり、1枚目になる
-          } else if(click < listLength - listLength ) { // clickが0よりも小さかったら
-            click = listLength - 1; // click = length-1となり、最後の画像になる
-          }
-        });
-        $('.slider-ctrl-btn').click(function(){ // .slider-ctrl-btnがクリックされた時
+          sliding();
           $('.slider-list').animate({ // animateメソッドを用いて、.slider-listをアニメーションさせる。
             left: click * (-listWidth) // click × -listWidth(画像のwidth)動く
           }, 500); // 500ミリ秒(0.5秒)の速度で
