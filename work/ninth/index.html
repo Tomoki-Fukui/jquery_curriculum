@@ -22,9 +22,11 @@
         .done(function(data) {
           console.log(data); // consoleにdata情報を表示
           var colorsArray = data.colorsArray; // colorsArray変数にdata.colorsArrayを定義
-          let list = " "; // letを用いて、listという変数にブロックで定義
-          $.each(colorsArray, function(i) { // colorsArrayに対して次の関数を繰り返し実行
-            list += '<li class = "colorList__item"><p class = "colorList__title" style = "background-color:' + colorsArray[i].hexValue + ';"> ' + colorsArray[i].colorName + '</p></li>'; // listにテンプレートのhtmlを代入、colorsArrayにdata.Jsonのデータを代入
+          var list = ""; // letを用いて、listという変数にブロックで定義
+          $.each(colorsArray, function(i,item) { // colorsArrayに対して次の関数を繰り返し実行
+            console.log(item);
+            console.log(colorsArray[i]);
+            list += '<li class = "colorList__item"><p class = "colorList__title" style = "background-color:' + item.hexValue + ';"> ' + item.colorName + '</p></li>'; // listにテンプレートのhtmlを代入、colorsArrayにdata.Jsonのデータを代入
           });
           $('.colorList').html(list); // htmlメソッドを用いて.colorListにlistを代入
         });
