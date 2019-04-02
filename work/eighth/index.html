@@ -29,8 +29,6 @@
     <script src="../../common/js/jquery.js"></script>
     <script>
       $(function() {
-        var position = $('.contents').offset().top;
-        var title =  $('.title').data('scroll-place-type');
         // ページ内スクロール
         $(".menu__btn").click(function () { // .menu__btnをクリックした時
           var data = $(this).data('scroll-place-type'); // dataという変数にthis(.menu__btn)のdata属性(scroll-place-type)を取得
@@ -38,7 +36,7 @@
           if(target.length > 0) { // target.lengthが0より大きいとき
             console.log(target.length);
             $('html,body').animate({scrollTop:target.position().top}, 'fast'); // animateメソッドを用いてtopで取得した位置にスクロール
-          };
+          }; // htmlとbodyが2つある理由は、他のブラウザで見ても大丈夫なように。
         });
         // 100pxスクロールでボタン表示
         var topBtn = $('.scrollTopBtn'); // topBtn変数に.scrollTopBtnを定義
@@ -52,7 +50,7 @@
         // ページ上部へ戻る
         $(".scrollTopBtn").click(function () { // .scrollTopBtnをclickした時
             $('html,body').animate({ scrollTop: 0 }, 'fast'); // animateメソッドを用いて、scrollTop0の位置(ページの一番上)までスクロール
-            return false;
+            return false; // htmlとbodyで2回animateをやらないように、1回やったら止めるため
         });
       });
       // 今回やるのはページ内スクロールです。
