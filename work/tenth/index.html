@@ -29,23 +29,40 @@
       $(function() {
         var pageNum = 0; // pageNumという変数に0と宣言
         var prevword = ''; // prevwordという変数に空の文字列を定義
+
+        // 検索結果が0件だった時の関数
         var zeroMessage = function() { // zeroMessageという変数に次の関数を定義
           $('.lists').after('<div class = "coment"></div>') // listsの後にクラスを追加
           coment = $('.coment'); // comentに.comentを定義
           coment.html('<p class = "message">検索結果が0件でした。<br>キーワードを変えて検索してください。</p>'); // comentにhtmlメソッドを用いて、0件だった時のコメントを追加
         };
+
+         // データ通信に失敗した時の関数
         var failMessage = function() { // failMessageという変数に次の関数を定義
         $('.lists').after('<div class = "datacoment"></div>') // listsの後にクラスを追加
           datacoment = $('.datacoment'); // datacomentに.datacomentを定義
           datacoment.html('<p class = "failmessage">データ通信できませんでした。<br>接続を確認してください。</p>'); // datacomentに失敗した時のコメントを追加
         };
-        $('.search__btn').on('click',function() {
-          search__btn(); // 定義したsearch__btnという関数の実行
-        });
-        function search__btn() { // .search__btnがクリックされた時の処理
+
+         // データ通信に成功した時の関数
+        var success = function(data) { // successという変数に次の関数を定義。引数に(data)を入れることで他の場所で呼び出せる。
+          if(data.count > 0) { // data.countが0よりも大きいとき
+            var list = ''; // listという変数に空の文字列を定義
+            $.each(data.Items,function(i,item) { // data.Itemsに対して次の関数を繰り返し実行
+              list += '<li class = "lists__item">' + i + '<div class="lists__item__inner">' + '<a href="' + item.Item.itemUrl + '"class="lists__item__link" target="_blank">' + '<img src="' + item.Item.largeImageUrl + '" class="lists__item__img" alt="' + item.Item.title + '">' + '<p class="lists__item__detail">作品名：　' + item.Item.title + '</p>' + '<p class="lists__item__detail">作者　：　' + item.Item.author + '</p>' + '<p class="lists__item__detail">出版社：　' + item.Item.publisherName + '</p>' + '</a>' + '</div>' + '</li>'; // listという変数にテンプレートを代入
+            })
+            $('.lists').prepend(list); // .listsの前にlistを追加
+          } else if(data.count === 0) { // data.countが0件だった時
+            zeroMessage(); // zeroMessageという変数に定義した関数を実行
+          }
+        };
+
+         // ボタンを押した時の関数
+        var search__btn = function() { // .search__btnという変数に次の関数を定義
           pageNum = pageNum + 1; //変数pageNumに1ずつ加算
           var searchword = $('#js-search-word').val(); // searchwordという変数に#js-search-wordを定義。#js-search-wordのval属性を取得
           if(prevword !== searchword) { // prevwordがsearchwordと異なるとき
+            pageNum = 1; // pageNumを1にする
             $('ul').empty(); // ulの中身を空にする
             prevword = searchword; // searchwordにprevwordを保存
           }
@@ -64,22 +81,15 @@
             }
           })
           .done(function(data) { // データ通信に成功した場合
-            if(data.count > 0) { // data.countが0よりも大きいとき
-              $.each(data.Items,function(i,item) { // data.Itemsに対して次の関数を繰り返し実行
-                console.log(data.Items);
-                var list = $('<li class = "lists__item">' + '<div class="lists__item__inner">' + '<a href="' + item.Item.itemUrl + '"class="lists__item__link" target="_blank">' + '<img src="' + item.Item.largeImageUrl + '" class="lists__item__img" alt="' + item.Item.title + '">' + '<p class="lists__item__detail">作品名：　' + item.Item.title + '</p>' + '<p class="lists__item__detail">作者　：　' + item.Item.author + '</p>' + '<p class="lists__item__detail">出版社：　' + item.Item.publisherName + '</p>' + '</a>' + '</div>' + '</li>'); // listという変数にテンプレートを代入
-                $('.lists').append(list); // listsの後にlistを追加
-                if(pageNum > 1) { // 2ページ目以降の時
-                  $('.lists').prepend(list); // .listsの前にlistを追加
-                }
-              })
-            } else if(data.count === 0) { // data.countが0件だった時
-              zeroMessage(); // 先程定義した関数を実行
-            }
+            success(data); // successという変数に定義した関数を実行。引数に(data)を入れることで呼び出す。
           }).fail(function() { // データ通信に失敗した場合
-            failMessage(); // 先程定義した関数を実行
+            failMessage(); // failMessageという変数に定義した関数を実行
           })
-        }
+        };
+
+        $('.search__btn').on('click',function() { // .search__btnをクリックした時
+          search__btn(); // search__btnという変数に定義した関数の実行
+        });
       });
       // 楽天ブックスの総合検索APIを使って製作してください。
       // answerの挙動を良く見てね！
